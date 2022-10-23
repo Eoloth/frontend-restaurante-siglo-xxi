@@ -30,6 +30,7 @@ const DOMAINS = {
   TABLES: 'TABLES',
   ORDERS: 'ORDERS',
   PRODUCTS: 'PRODUCTS',
+  ORDERS: 'ORDERS',
   PAYMENTS: 'PAYMENTS',
   CATEGORIES: 'CATEGORIES',
   USERS: 'USERS',
@@ -134,21 +135,44 @@ const FORMS_INPUTS = {
     props: {
       image: {
         type: 'file',
+        text: 'Imagen',
         initialValue: null,
       },
       price: {
         type: 'text',
+        text: 'Precio',
         initialValue: null,
       },
       title: {
         type: 'text',
+        text: 'Titulo',
         initialValue: null,
       },
       category: {
+        text: 'Categoria',
         type: 'list',
       },
       active: {
+        text: 'Activo',
         type: 'checkbox',
+      },
+    },
+  },
+  [DOMAINS.ORDERS]: {
+    enctype: 'multipart/form-data',
+    props: {
+      table: {
+        text: 'Mesa',
+        type: 'list',
+      },
+      product: {
+        text: 'Producto',
+        type: 'list',
+        isMulti: true,
+      },
+      status: {
+        text: 'Estado',
+        type: 'list',
       },
     },
   },

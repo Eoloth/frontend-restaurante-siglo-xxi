@@ -31,7 +31,7 @@ const EditModal = ({getModalHandler, postModalHandler, modalTitle, children}) =>
     if (!fetchModalInfo) return
     const modalHandler = async () => {
       const res = await getModalHandler()
-      console.log('** res', res)
+      console.log('** res modalHandler', res)
       setModalInfo(res.data)
       setHasModalInfo(true)
       setModalToggle(true)
@@ -43,7 +43,6 @@ const EditModal = ({getModalHandler, postModalHandler, modalTitle, children}) =>
     if (isValidElement(child)) {
       return React.cloneElement(child, {modalInfo})
     }
-    console.log('** modalInfo', modalInfo)
     return child
   })
 

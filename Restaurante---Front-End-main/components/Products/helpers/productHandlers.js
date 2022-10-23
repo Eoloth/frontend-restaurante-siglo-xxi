@@ -30,10 +30,17 @@ const fetchProductInfoHandler = (id, state, actions) => async () => {
     method: 'GET',
     headers: {accept: 'application/json', Authorization: `Bearer ${token}`},
   })
+  const categoryWithSelected = category.filter(
+    (category) => category.id !== res.data.category_data.id,
+  )
+  categoryWithSelected.push({
+    ...res.data.category_data,
+    selected: true,
+  })
   return {
     data: {
       ...res.data,
-      category,
+      category: categoryWithSelected,
     },
   }
 }
@@ -47,7 +54,7 @@ const updateProductHandler = (id, actions) => async (data) => {
   }
   formData.append('title', data.title)
   formData.append('price', data.price)
-  formData.append('category', data.category)
+  formData.append('category', data.category.id)
   const res = await axios.patch(productApiUrl, formData, {
     headers: {'content-type': 'multipart/form-data', Authorization: `Bearer ${token}`},
   })

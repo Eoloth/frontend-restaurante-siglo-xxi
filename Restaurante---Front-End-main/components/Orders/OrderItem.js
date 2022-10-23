@@ -11,21 +11,18 @@ import EditModal from '../Modal/EditModal'
 import useEditableForm from '../../utils/useEditableForm'
 import {DOMAINS} from '../../constants/appConstants'
 
-const OrderDelete = ({id, status, payment}) => {
+const OrderDelete = ({id, status, actions}) => {
   return (
-    <DeleteModal
-      deleteModalHandler={deleteOrder(id, payment)}
-      modalstatus="Borrar Order"
-    >
+    <DeleteModal deleteModalHandler={deleteOrder(id, actions)} modalstatus="Borrar Order">
       <DeleteOrderInfo id={id} status={status} />
     </DeleteModal>
   )
 }
 
-const OrderInfo = ({id, created_at, table, payment}) => {
+const OrderInfo = ({id, actions, state}) => {
   return (
     <InfoModal
-      getModalHandler={fetchOrderInfoHandler(id, created_at, table, payment)}
+      getModalHandler={fetchOrderInfoHandler(id, state, actions)}
       modalstatus="Ver Order"
     >
       <OrderInfoForm />
@@ -49,15 +46,36 @@ const OrderEdit = ({id, actions, state}) => {
 const OrderButtons = ({id, status, state, payment, table, actions}) => {
   return (
     <div className="flex justify-end">
-      <OrderInfo id={id} table={table} status={status} payment={payment} state={state} actions={actions} />
-      <OrderEdit id={id} status={status}  payment={payment} table={table} state={state} actions={actions} />
-      <OrderDelete id={id} status={status} table={table} state={state} payment={payment} actions={actions}/>
+      <OrderInfo
+        id={id}
+        table={table}
+        status={status}
+        payment={payment}
+        state={state}
+        actions={actions}
+      />
+      <OrderEdit
+        id={id}
+        status={status}
+        payment={payment}
+        table={table}
+        state={state}
+        actions={actions}
+      />
+      <OrderDelete
+        id={id}
+        status={status}
+        table={table}
+        state={state}
+        payment={payment}
+        actions={actions}
+      />
     </div>
   )
 }
 
-const OrderItem = ({status, created_at, id, payment, table, key, state}) => {
-    return (
+const OrderItem = ({status, created_at, id, payment, table, key, state, actions}) => {
+  return (
     <li
       className="panel-block is-flex item-container is-justify-content-space-between"
       id={id}
@@ -69,7 +87,15 @@ const OrderItem = ({status, created_at, id, payment, table, key, state}) => {
         <span className="Order-status ml-2"> {`Estado: ${status}`}</span>
         <span className="Order-table ml-2"> {`Mesa: ${table}`}</span>
       </div>
-      <OrderButtons id={id} created_at={created_at} state={state} status={status} payment={payment} table={table} />
+      <OrderButtons
+        id={id}
+        created_at={created_at}
+        state={state}
+        status={status}
+        payment={payment}
+        table={table}
+        actions={actions}
+      />
     </li>
   )
 }

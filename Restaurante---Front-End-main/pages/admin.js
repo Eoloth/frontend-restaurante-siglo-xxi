@@ -1,5 +1,5 @@
-import {getCookie} from 'cookies-next'
 import Head from 'next/head'
+import {QueryClient, dehydrate} from '@tanstack/react-query'
 import Container from '../components/Container/Container'
 import PageController from '../components/PageController/PageController'
 import useWithContext from '../hooks/useWithContext'
@@ -30,6 +30,8 @@ function AdminPage(props) {
 
 export async function getServerSideProps({res, req}) {
   const session = await verifySession({req, res})
+  const queryClient = new QueryClient()
+
   if (!session.isValid) {
     return {
       redirect: {
@@ -40,6 +42,7 @@ export async function getServerSideProps({res, req}) {
   }
   return {
     props: {
+      dehydratedState: dehydrate(queryClient),
       session,
     },
   }

@@ -14,18 +14,17 @@ const useCreateForm = () => {
     handleSubmit,
     getValues,
     CreateForm: ({createFormProps}) => {
-      console.log('** createFormProps', createFormProps)
       return (
         <form encType={createFormProps.encType}>
           {Object.entries(createFormProps.props)
             .filter(([id]) => id !== 'id')
             .map(([id, props]) => {
-              const {initialValue, type, ...otherProps} = props
+              const {initialValue, type, text, ...otherProps} = props
               const [value, onChangeHandler] = handleFileInput(type, initialValue)
               if (type === 'list')
                 return (
                   <div className="mb-6">
-                    <label htmlFor={id}>{`${id.toUpperCase()}: `}</label>
+                    <label htmlFor={id}>{`${text.toUpperCase()}: `}</label>
                     <input
                       className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                       list={id}
@@ -43,7 +42,7 @@ const useCreateForm = () => {
               if (type === 'checkbox')
                 return (
                   <div className="mb-6">
-                    <label htmlFor={id}>{`${id.toUpperCase()}: `}</label>
+                    <label htmlFor={id}>{`${text.toUpperCase()}: `}</label>
                     <input
                       type={type}
                       className="form-control"
@@ -57,7 +56,7 @@ const useCreateForm = () => {
                 )
               return (
                 <div className="mb-6">
-                  <label htmlFor={id}>{`${id.toUpperCase()}: `}</label>
+                  <label htmlFor={id}>{`${text.toUpperCase()}: `}</label>
                   <input
                     type={type}
                     className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"

@@ -24,6 +24,27 @@ const setCategories = (prevState, categories) => {
   }
 }
 
+const setPayments = (prevState, payments) => {
+  return {
+    ...prevState,
+    payments,
+  }
+}
+
+const setProducts = (prevState, products) => {
+  return {
+    ...prevState,
+    products,
+  }
+}
+
+const setStatuses = (prevState, statuses) => {
+  return {
+    ...prevState,
+    statuses,
+  }
+}
+
 const setReloadComponent = (prevState, reloadComponent) => {
   return {
     ...prevState,
@@ -51,6 +72,12 @@ const reducer = (state, action) => {
       return logout(state)
     case RESTAURANT_ACTIONS.SET_CATEGORIES:
       return setCategories(state, data)
+    case RESTAURANT_ACTIONS.SET_PAYMENTS:
+      return setPayments(state, data)
+    case RESTAURANT_ACTIONS.SET_STATUSES:
+      return setStatuses(state, data)
+    case RESTAURANT_ACTIONS.SET_PRODUCTS:
+      return setProducts(state, data)
     case RESTAURANT_ACTIONS.SET_RELOAD_COMPONENT:
       return setReloadComponent(state, data)
     default:
@@ -75,6 +102,15 @@ const useActions = (restaurantInitialState) => {
   const setCategories = (dispatch) => (data) => {
     dispatch({type: RESTAURANT_ACTIONS.SET_CATEGORIES, data})
   }
+  const setPayments = (dispatch) => (data) => {
+    dispatch({type: RESTAURANT_ACTIONS.SET_PAYMENTS, data})
+  }
+  const setProducts = (dispatch) => (data) => {
+    dispatch({type: RESTAURANT_ACTIONS.SET_PRODUCTS, data})
+  }
+  const setStatuses = (dispatch) => (data) => {
+    dispatch({type: RESTAURANT_ACTIONS.SET_STATUSES, data})
+  }
 
   const logout = (dispatch) => () => {
     dispatch({type: RESTAURANT_ACTIONS.LOGOUT})
@@ -83,6 +119,9 @@ const useActions = (restaurantInitialState) => {
   const actions = {
     setMainPage: setMainPage(dispatch),
     setTables: setTables(dispatch),
+    setPayments: setPayments(dispatch),
+    setProducts: setProducts(dispatch),
+    setStatuses: setStatuses(dispatch),
     setReloadComponent: setReloadComponent(dispatch),
     setCategories: setCategories(dispatch),
     logout: logout(dispatch),

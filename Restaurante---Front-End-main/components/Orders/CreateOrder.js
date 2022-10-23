@@ -25,12 +25,9 @@ const CreateOrder = ({state, actions}) => {
     const token = getCookie('JWT_TOKEN')
     const requestBody = getValues()
     const formData = new FormData()
-    formData.append('created_at', requestBody.created_at)
+    formData.append('product', requestBody.product)
+    formData.append('table', requestBody.table)
     formData.append('status', requestBody.status)
-    formData.append('product_id', requestBody.product_id)
-    formData.append('table', requestBody.table)
-    formData.append('payment_id', requestBody.payment_id)
-    formData.append('table', requestBody.table)
     const res = await axios.post(createProductApi, formData, {
       headers: {
         'content-type': 'multipart/form-data',

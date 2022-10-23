@@ -1,21 +1,45 @@
 import {DOMAINS, FORMS_INPUTS} from '../../../constants/appConstants'
-import {fetchAllCategoriesInfoHandler} from '../../Categories/helpers/categoryHandlers'
+import getPaymentsHandler from '../../../helpers/getPaymentsHandler'
+import getProductsHandler from '../../../helpers/getProductsHandler'
+import getStatusesHandler from '../../../helpers/getStatusesHandler'
+import getTablesHandler from '../../../helpers/getTablesHandler'
 
 const getCreateOrderProps = async (state, actions) => {
-  const initialProps = FORMS_INPUTS[DOMAINS.PRODUCTS]
-  let categoriesProps = state.categories
-  if (!categoriesProps.length) {
-    const res = await fetchAllCategoriesInfoHandler()
-    categoriesProps = res.data
+  const initialProps = FORMS_INPUTS[DOMAINS.ORDERS]
+  let statusesProps = state.statuses
+  let productProps = state.products
+  let tablesProps = state.tables
+  if (!productProps.length) {
+    const resProducts = await getProductsHandler()
+    productProps = resProducts.data
   }
-  if (!state.categories.length) actions.setCategories(categoriesProps)
+  if (!statusesProps.length) {
+    const resStatuses = await getStatusesHandler()
+    statusesProps = resStatuses.data
+  }
+  if (!tablesProps.length) {
+    const resTables = await getTablesHandler()
+    tablesProps = resTables.data
+  }
+  if (!state.statuses.length) actions.setStatuses(statusesProps)
+  if (!state.tables.length) actions.setTables(tablesProps)
+  if (!state.products.length) actions.setProducts(productProps)
+
   return {
     ...initialProps,
     props: {
       ...initialProps.props,
-      category: {
-        ...initialProps.props.category,
-        initialValue: categoriesProps,
+      table: {
+        ...initialProps.props.table,
+        initialValue: tablesProps,
+      },
+      product: {
+        ...initialProps.props.product,
+        initialValue: productProps,
+      },
+      status: {
+        ...initialProps.props.status,
+        initialValue: statusesProps,
       },
     },
   }
