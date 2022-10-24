@@ -23,14 +23,15 @@ const CreateOrder = ({state, actions}) => {
   const onSubmit = async () => {
     const createProductApi = buildUrl(getApiUrl(DOMAINS.ORDERS).createOrder)
     const token = getCookie('JWT_TOKEN')
-    const requestBody = getValues()
-    const formData = new FormData()
-    formData.append('product', requestBody.product)
-    formData.append('table', requestBody.table)
-    formData.append('status', requestBody.status)
-    const res = await axios.post(createProductApi, formData, {
+    const data = getValues()
+    const body = {
+      status: data.status.id,
+      products: data.product.map((product) => product.id),
+      table: data.table.id,
+    }
+    const res = await axios.post(createProductApi, JSON.stringify(body), {
       headers: {
-        'content-type': 'multipart/form-data',
+        'content-type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
     })
