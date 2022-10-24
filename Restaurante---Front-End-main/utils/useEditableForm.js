@@ -65,14 +65,12 @@ const useEditableForm = () => {
                 const defaultValues = otherProps.isMulti
                   ? options.filter((op) => op.selected)
                   : options.find((op) => op.selected)
-                console.log('** defaultValues', defaultValues)
                 return (
                   <Controller
                     name={id}
                     defaultValue={defaultValues}
                     control={control}
                     render={({field}) => {
-                      console.log('** field', field)
                       return (
                         <Select
                           {...field}

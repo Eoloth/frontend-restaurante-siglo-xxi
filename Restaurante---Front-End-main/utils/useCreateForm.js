@@ -1,9 +1,10 @@
 import React, {useState} from 'react'
-import {useForm} from 'react-hook-form'
+import Select from 'react-select'
+import {useForm, Controller} from 'react-hook-form'
 import {noop} from '../constants/appConstants'
 
 const useCreateForm = () => {
-  const {register, handleSubmit, getValues} = useForm()
+  const {register, control, handleSubmit, getValues} = useForm()
   const handleFileInput = (type, initialValue) => {
     const [value, setValue] = useState(initialValue)
     const onChangeHandler =
@@ -21,24 +22,36 @@ const useCreateForm = () => {
             .map(([id, props]) => {
               const {initialValue, type, text, ...otherProps} = props
               const [value, onChangeHandler] = handleFileInput(type, initialValue)
-              if (type === 'list')
+              if (type === 'list') {
+                const options = value.map((op) => ({
+                  ...op,
+                  value: op.id,
+                  label: op.title || op.number,
+                }))
+                const defaultValues = otherProps.isMulti
+                  ? options.filter((op) => op.selected)
+                  : options.find((op) => op.selected)
                 return (
-                  <div className="mb-6">
-                    <label htmlFor={id}>{`${text.toUpperCase()}: `}</label>
-                    <input
-                      className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                      list={id}
-                      {...register(id)}
-                      onChange={onChangeHandler}
-                      {...otherProps}
-                    />
-                    <datalist id={id}>
-                      {value.map((option) => (
-                        <option value={option.id}>{option.title}</option>
-                      ))}
-                    </datalist>
-                  </div>
+                  <Controller
+                    name={id}
+                    defaultValue={defaultValues}
+                    control={control}
+                    render={({field}) => {
+                      return (
+                        <Select
+                          {...field}
+                          inputRef={field.ref}
+                          onChange={(v) => field.onChange(v)}
+                          defaultValue={defaultValues}
+                          className="form-control block w-full text-xl font-normal text-gray-700 bg-white bg-clip-padding rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                          options={options}
+                          {...otherProps}
+                        />
+                      )
+                    }}
+                  />
                 )
+              }
               if (type === 'checkbox')
                 return (
                   <div className="mb-6">
